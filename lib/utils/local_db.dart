@@ -60,4 +60,9 @@ class SqlDb {
     String path = join(databasePath, "todo.db");
     deleteDatabase(path);
   }
+
+  Future<int> insertShortcut({required Map<String, Object?> task}) async {
+    Database? database = await db;
+    return await database.insert("tasks", task);
+  }
 }
