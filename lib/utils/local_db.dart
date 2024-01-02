@@ -24,7 +24,7 @@ class SqlDb {
 
   Future<void> _onCreate(Database db, int num) async {
     await db.execute(
-      'CREATE TABLE "tasks" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , "title" TEXT NOT NULL, "status" TEXT,"")',
+      'CREATE TABLE "tasks" ("id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT , "title" TEXT NOT NULL, "status" TEXT,"time" TEXT,"date" TEXT)',
     );
   }
 
