@@ -1,8 +1,12 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_abdullah/layout/app_layout.dart';
 import 'package:to_do_abdullah/utils/app_theme.dart';
+import 'package:to_do_abdullah/utils/states_observer.dart';
 
 void main() {
+  Bloc.observer = MyBlocObserver();
+
   runApp(const MyApp());
 }
 
