@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_cubit.dart';
 import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_states.dart';
-import 'package:to_do_abdullah/modules/archived_tasks.dart';
-import 'package:to_do_abdullah/modules/done_tasks.dart';
-import 'package:to_do_abdullah/modules/new_tasks.dart';
+import 'package:to_do_abdullah/controller/modal_bottom_sheet_controller/modal_bottom_sheet_cubit.dart';
 import 'package:to_do_abdullah/utils/local_db.dart';
 import 'package:to_do_abdullah/widgets/tasks_modal_bottom_sheet.dart';
 
@@ -16,10 +14,6 @@ class AppLayout extends StatefulWidget {
 }
 
 class _AppLayoutState extends State<AppLayout> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool isBottomSheetOpened = false;
-  PersistentBottomSheetController? controller;
-
   SqlDb sqlDb = SqlDb();
 
   @override
@@ -32,30 +26,34 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavBarCubit, BottomNavBarStates>(
       builder: (context, state) {
-        final bottonNavBarCubit =
+        final bottomNavBarCubit =
             BlocProvider.of<BottomNavBarCubit>(context, listen: false);
+        final modalBottomSheetCubit =
+            BlocProvider.of<ModalBottomSheetCubit>(context, listen: true);
         return Scaffold(
-          key: _scaffoldKey,
-          body: bottonNavBarCubit.tabs[bottonNavBarCubit.currentIndex],
-          floatingActionButton: bottonNavBarCubit.currentIndex == 0
+          key: modalBottomSheetCubit.scaffoldKey,
+          body: bottomNavBarCubit.tabs[bottomNavBarCubit.currentIndex],
+          floatingActionButton: bottomNavBarCubit.currentIndex == 0
               ? FloatingActionButton(
                   onPressed: () {
-                    if (controller == null) {
-                      settingModalBottomSheet();
+                    if (modalBottomSheetCubit.controller == null) {
+                      modalBottomSheetCubit.settingModalBottomSheet();
                     } else {
-                      _closeModalBottomSheet();
+                      modalBottomSheetCubit.closeModalBottomSheet();
                     }
                     setState(() {});
                   },
                   child: Icon(
-                    controller == null ? Icons.edit : Icons.close,
+                    modalBottomSheetCubit.controller == null
+                        ? Icons.edit
+                        : Icons.close,
                   ),
                 )
               : null,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
-                bottonNavBarCubit.appBarText[bottonNavBarCubit.currentIndex]),
+                bottomNavBarCubit.appBarText[bottomNavBarCubit.currentIndex]),
             centerTitle: true,
           ),
           bottomNavigationBar: buildBottomNavigationBar(),
@@ -85,20 +83,5 @@ class _AppLayoutState extends State<AppLayout> {
         ),
       ],
     );
-  }
-
-  void settingModalBottomSheet() {
-    controller = _scaffoldKey.currentState!.showBottomSheet(
-        backgroundColor: Colors.white, enableDrag: false, (context) {
-      return const TasksModalBottomSheet();
-    });
-  }
-
-  void _closeModalBottomSheet() {
-    if (controller != null) {
-      controller!.close();
-
-      controller = null;
-    } else {}
   }
 }
