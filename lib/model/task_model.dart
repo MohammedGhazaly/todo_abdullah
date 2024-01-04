@@ -16,7 +16,7 @@ class TaskModel {
   Map<String, Object?> toJson() {
     return {
       "title": title,
-      "status": status,
+      "status": status.name,
       "time": date,
       "date": time,
     };

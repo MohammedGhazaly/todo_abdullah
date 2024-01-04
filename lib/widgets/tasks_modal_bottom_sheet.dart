@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_abdullah/controller/modal_bottom_sheet_controller/modal_bottom_sheet_cubit.dart';
 import 'package:to_do_abdullah/model/task_model.dart';
 import 'package:to_do_abdullah/utils/local_db.dart';
 import 'package:to_do_abdullah/widgets/custom_text_form_field.dart';
@@ -52,6 +54,8 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final modalBottomSheetCubit =
+        BlocProvider.of<ModalBottomSheetCubit>(context);
     return SizedBox(
       // height: 250,
       child: Padding(
@@ -106,7 +110,7 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               FocusScope(
@@ -137,7 +141,7 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               ElevatedButton(
@@ -152,12 +156,10 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
                         time: timeOfDayController.text,
                         date: dateTimeController.text,
                       );
-                      db.insertShortcut(task: task.toJson()).then((value) {
-                        Navigator.pop(context);
-                      });
+                      modalBottomSheetCubit.addTask(task.toJson());
                     }
                   },
-                  child: Text("Add task"))
+                  child: const Text("Add task"))
             ],
           ),
         ),

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             lazy: true,
           ),
           BlocProvider(
-            create: (_) => ModalBottomSheetCubit(),
+            create: (_) => ModalBottomSheetCubit()..getAllTasks(),
             lazy: true,
           )
         ],

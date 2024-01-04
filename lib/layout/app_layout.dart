@@ -4,7 +4,6 @@ import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_b
 import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_states.dart';
 import 'package:to_do_abdullah/controller/modal_bottom_sheet_controller/modal_bottom_sheet_cubit.dart';
 import 'package:to_do_abdullah/utils/local_db.dart';
-import 'package:to_do_abdullah/widgets/tasks_modal_bottom_sheet.dart';
 
 class AppLayout extends StatefulWidget {
   const AppLayout({super.key});
