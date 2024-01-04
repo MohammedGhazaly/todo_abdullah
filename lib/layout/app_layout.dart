@@ -47,8 +47,7 @@ class _AppLayoutState extends State<AppLayout> {
                 if (controller == null) {
                   settingModalBottomSheet();
                 } else {
-                  controller!.close();
-                  controller = null;
+                  _closeModalBottomSheet();
                 }
                 setState(() {});
               },
@@ -93,7 +92,7 @@ class _AppLayoutState extends State<AppLayout> {
   void settingModalBottomSheet() {
     controller = _scaffoldKey.currentState!.showBottomSheet(
         backgroundColor: Colors.white, enableDrag: false, (context) {
-      return TasksModalBottomSheet();
+      return const TasksModalBottomSheet();
     });
   }
 

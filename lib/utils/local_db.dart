@@ -61,6 +61,14 @@ class SqlDb {
     deleteDatabase(path);
   }
 
+  Future<List<Map<String, Object?>>> readDataShortcut(
+      {required String query, String? where}) async {
+    Database? database = await db;
+    List<Map<String, Object?>> response =
+        await database.query(query, where: where);
+    return response;
+  }
+
   Future<int> insertShortcut({required Map<String, Object?> task}) async {
     Database? database = await db;
     return await database.insert("tasks", task);

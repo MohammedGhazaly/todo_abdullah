@@ -1,8 +1,10 @@
+import 'package:enum_to_string/enum_to_string.dart';
+
 class TaskModel {
   final String title;
   final String time;
   final String date;
-  final TaskStatus status;
+  TaskStatus status;
   TaskModel({
     required this.title,
     required this.time,
@@ -13,10 +15,20 @@ class TaskModel {
   Map<String, Object?> toJson() {
     return {
       "title": title,
-      "status": status.name,
+      "status": status,
       "time": date,
       "date": time,
     };
+  }
+
+  factory TaskModel.fromJson(Map<String, Object?> json) {
+    return TaskModel(
+      title: json["title"].toString(),
+      time: json["date"].toString(),
+      date: json["time"].toString(),
+      status:
+          EnumToString.fromString(TaskStatus.values, json["status"] as String)!,
+    );
   }
 }
 
