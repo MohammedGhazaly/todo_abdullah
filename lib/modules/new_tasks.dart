@@ -25,6 +25,7 @@ class _NewTasksScreenState extends State<NewTasksScreen> {
       for (var t in value) {
         var task = TaskModel.fromJson(t);
         newTasks.add(task);
+        print(task.id);
       }
       setState(() {});
     });

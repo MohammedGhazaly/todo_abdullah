@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_cubit.dart';
+import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_states.dart';
 import 'package:to_do_abdullah/modules/archived_tasks.dart';
 import 'package:to_do_abdullah/modules/done_tasks.dart';
 import 'package:to_do_abdullah/modules/new_tasks.dart';
@@ -13,22 +16,11 @@ class AppLayout extends StatefulWidget {
 }
 
 class _AppLayoutState extends State<AppLayout> {
-  int currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isBottomSheetOpened = false;
   PersistentBottomSheetController? controller;
 
   SqlDb sqlDb = SqlDb();
-  List<Widget> tabs = const [
-    NewTasksScreen(),
-    ArchivedTasksScreen(),
-    DoneTasksScreen()
-  ];
-  List<String> appBarText = [
-    "Tasks",
-    "Done tasks",
-    "Archived tasks",
-  ];
 
   @override
   void dispose() {
@@ -38,40 +30,46 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: tabs[currentIndex],
-      floatingActionButton: currentIndex == 0
-          ? FloatingActionButton(
-              onPressed: () {
-                if (controller == null) {
-                  settingModalBottomSheet();
-                } else {
-                  _closeModalBottomSheet();
-                }
-                setState(() {});
-              },
-              child: Icon(
-                controller == null ? Icons.edit : Icons.close,
-              ),
-            )
-          : null,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(appBarText[currentIndex]),
-        centerTitle: true,
-      ),
-      bottomNavigationBar: buildBottomNavigationBar(),
+    return BlocBuilder<BottomNavBarCubit, BottomNavBarStates>(
+      builder: (context, state) {
+        final bottonNavBarCubit =
+            BlocProvider.of<BottomNavBarCubit>(context, listen: false);
+        return Scaffold(
+          key: _scaffoldKey,
+          body: bottonNavBarCubit.tabs[bottonNavBarCubit.currentIndex],
+          floatingActionButton: bottonNavBarCubit.currentIndex == 0
+              ? FloatingActionButton(
+                  onPressed: () {
+                    if (controller == null) {
+                      settingModalBottomSheet();
+                    } else {
+                      _closeModalBottomSheet();
+                    }
+                    setState(() {});
+                  },
+                  child: Icon(
+                    controller == null ? Icons.edit : Icons.close,
+                  ),
+                )
+              : null,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(
+                bottonNavBarCubit.appBarText[bottonNavBarCubit.currentIndex]),
+            centerTitle: true,
+          ),
+          bottomNavigationBar: buildBottomNavigationBar(),
+        );
+      },
     );
   }
 
   BottomNavigationBar buildBottomNavigationBar() {
+    final bottonNavBarCubit =
+        BlocProvider.of<BottomNavBarCubit>(context, listen: false);
     return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: (index) {
-        currentIndex = index;
-        setState(() {});
-      },
+      currentIndex: bottonNavBarCubit.currentIndex,
+      onTap: bottonNavBarCubit.onBottomNavbarTab,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.menu),
