@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             lazy: true,
           ),
           BlocProvider(
-            create: (_) => UpdateTaskCubit()..getArchivedTasks(),
+            create: (_) => UpdateTaskCubit()..getUpdatedTasks(),
             lazy: true,
           )
         ],

@@ -12,10 +12,10 @@ class ArchivedTasksScreen extends StatelessWidget {
     final updateTaskCubit =
         BlocProvider.of<UpdateTaskCubit>(context, listen: true);
     return ListView.builder(
-      itemCount: updateTaskCubit.archivedTask.length,
+      itemCount: updateTaskCubit.archivedTasks.length,
       itemBuilder: (context, index) {
         return TaskWidget(
-          task: updateTaskCubit.archivedTask[index],
+          task: updateTaskCubit.archivedTasks[index],
         );
       },
     );

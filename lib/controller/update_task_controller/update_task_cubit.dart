@@ -8,22 +8,28 @@ part 'update_task_state.dart';
 class UpdateTaskCubit extends Cubit<UpdateTaskState> {
   UpdateTaskCubit() : super(UpdateTaskInitial());
   SqlDb sqlDb = SqlDb();
-  List<TaskModel> archivedTask = [];
+  List<TaskModel> archivedTasks = [];
+  List<TaskModel> doneTasks = [];
   void updateTask(
       {required Map<String, Object?> values, required String where}) async {
     await sqlDb.updateShortcut(table: "tasks", values: values, where: where);
-    getArchivedTasks();
+    getUpdatedTasks();
   }
 
-  void getArchivedTasks() async {
-    print("clicked");
-
-    archivedTask = [];
-    final tasks = await sqlDb.readDataShortcut(
+  void getUpdatedTasks() async {
+    archivedTasks = [];
+    doneTasks = [];
+    final archivedTasksJson = await sqlDb.readDataShortcut(
         query: "tasks", where: '"status" = "archivedTask"');
-    for (var t in tasks) {
+    final doneTasksJson = await sqlDb.readDataShortcut(
+        query: "tasks", where: '"status" = "doneTask"');
+    for (var t in archivedTasksJson) {
       var task = TaskModel.fromJson(t);
-      archivedTask.add(task);
+      archivedTasks.add(task);
+    }
+    for (var t in doneTasksJson) {
+      var task = TaskModel.fromJson(t);
+      doneTasks.add(task);
     }
     emit(GetUpdatedTasks());
   }

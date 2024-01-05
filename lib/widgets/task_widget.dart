@@ -68,7 +68,17 @@ class TaskWidget extends StatelessWidget {
               ? InkWell(
                   // radius: 50,
                   borderRadius: BorderRadius.circular(50),
-                  onTap: () {},
+                  onTap: () {
+                    BlocProvider.of<UpdateTaskCubit>(context).updateTask(
+                      values: {
+                        "status": TaskStatus.doneTask.name,
+                      },
+                      where: '"id" = ${task.id}',
+                    );
+                    BlocProvider.of<ModalBottomSheetCubit>(context,
+                            listen: false)
+                        .getAllNewTasks();
+                  },
                   child: const Icon(
                     Icons.done,
                     color: Colors.green,
