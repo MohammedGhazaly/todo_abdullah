@@ -12,6 +12,8 @@ class ModalBottomSheetCubit extends Cubit<ModalBottomSheetState> {
   bool isBottomSheetOpened = false;
   SqlDb sqlDb = SqlDb();
   List<TaskModel> newTasks = [];
+  List<TaskModel> archIvedTasks = [];
+  List<TaskModel> doneTasks = [];
   bool isFirstTimeFetch = true;
 
   PersistentBottomSheetController? controller;
@@ -36,13 +38,12 @@ class ModalBottomSheetCubit extends Cubit<ModalBottomSheetState> {
   }
 
   void addTask(Map<String, Object?> task) async {
-    print(task["status"]);
     await sqlDb.insertShortcut(task: task);
-    await getAllTasks();
+    getAllNewTasks();
     closeModalBottomSheet();
   }
 
-  Future<void> getAllTasks() async {
+  Future<void> getAllNewTasks() async {
     newTasks = [];
     final tasks = await sqlDb.readDataShortcut(
         query: "tasks", where: '"status" = "newTask"');
@@ -50,9 +51,6 @@ class ModalBottomSheetCubit extends Cubit<ModalBottomSheetState> {
       var task = TaskModel.fromJson(t);
       newTasks.add(task);
     }
-    if (isFirstTimeFetch) {
-      emit(TasksFetched());
-      isFirstTimeFetch = false;
-    }
+    emit(TasksFetched());
   }
 }

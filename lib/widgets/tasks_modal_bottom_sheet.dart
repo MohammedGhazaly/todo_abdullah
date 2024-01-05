@@ -136,7 +136,6 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
                         .then((value) {
                       dateTimeController.text =
                           DateFormat.yMMMEd().format(value!);
-                      print(value);
                     });
                   },
                 ),
@@ -145,21 +144,22 @@ class _TasksModalBottomSheetState extends State<TasksModalBottomSheet> {
                 height: 16,
               ),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue,
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final TaskModel task = TaskModel(
-                        title: titleController.text,
-                        time: timeOfDayController.text,
-                        date: dateTimeController.text,
-                      );
-                      modalBottomSheetCubit.addTask(task.toJson());
-                    }
-                  },
-                  child: const Text("Add task"))
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final TaskModel task = TaskModel(
+                      title: titleController.text,
+                      time: timeOfDayController.text,
+                      date: dateTimeController.text,
+                    );
+                    modalBottomSheetCubit.addTask(task.toJson());
+                  }
+                },
+                child: const Text("Add task"),
+              )
             ],
           ),
         ),

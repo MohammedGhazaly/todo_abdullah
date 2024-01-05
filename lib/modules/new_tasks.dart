@@ -5,18 +5,8 @@ import 'package:to_do_abdullah/model/task_model.dart';
 import 'package:to_do_abdullah/utils/local_db.dart';
 import 'package:to_do_abdullah/widgets/task_widget.dart';
 
-class NewTasksScreen extends StatefulWidget {
+class NewTasksScreen extends StatelessWidget {
   const NewTasksScreen({super.key});
-
-  @override
-  State<NewTasksScreen> createState() => _NewTasksScreenState();
-}
-
-class _NewTasksScreenState extends State<NewTasksScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_cubit.dart';
 import 'package:to_do_abdullah/controller/bottom_nav_bar_controller/bottom_nav_bar_states.dart';
 import 'package:to_do_abdullah/controller/modal_bottom_sheet_controller/modal_bottom_sheet_cubit.dart';
-import 'package:to_do_abdullah/utils/local_db.dart';
 
 class AppLayout extends StatefulWidget {
   const AppLayout({super.key});
@@ -13,8 +12,6 @@ class AppLayout extends StatefulWidget {
 }
 
 class _AppLayoutState extends State<AppLayout> {
-  SqlDb sqlDb = SqlDb();
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -23,6 +20,7 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
+    print("Rebuild");
     return BlocBuilder<BottomNavBarCubit, BottomNavBarStates>(
       builder: (context, state) {
         final bottomNavBarCubit =
@@ -40,7 +38,6 @@ class _AppLayoutState extends State<AppLayout> {
                     } else {
                       modalBottomSheetCubit.closeModalBottomSheet();
                     }
-                    setState(() {});
                   },
                   child: Icon(
                     modalBottomSheetCubit.controller == null

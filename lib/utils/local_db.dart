@@ -73,4 +73,15 @@ class SqlDb {
     Database? database = await db;
     return await database.insert("tasks", task);
   }
+
+  Future<int> updateShortcut(
+      {required String table,
+      required Map<String, Object?> values,
+      required String where}) async {
+    Database? mydb = await db;
+    // تباصي بس اسم الجدول وهو بيجيب كل البيانات علي طول
+    // wher => id = اسم الاي دي يعني مش بتكتب الوير كله هو بس الشرط اللي هيمسح بناء عليه
+    int response = await mydb.update(table, values, where: where);
+    return response;
+  }
 }

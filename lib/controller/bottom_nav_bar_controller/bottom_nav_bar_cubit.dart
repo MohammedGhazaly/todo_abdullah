@@ -12,8 +12,8 @@ class BottomNavBarCubit extends Cubit<BottomNavBarStates> {
 
   List<Widget> tabs = const [
     NewTasksScreen(),
+    DoneTasksScreen(),
     ArchivedTasksScreen(),
-    DoneTasksScreen()
   ];
   List<String> appBarText = [
     "Tasks",
