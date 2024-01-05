@@ -9,4 +9,6 @@ final class UpdateTaskArchived extends UpdateTaskState {}
 
 final class UpdateTaskDone extends UpdateTaskState {}
 
-final class GetUpdatedTasks extends UpdateTaskState {}
+final class GetTasks extends UpdateTaskState {}
+
+final class TaskDeleted extends UpdateTaskState {}

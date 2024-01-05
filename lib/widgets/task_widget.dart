@@ -88,7 +88,11 @@ class TaskWidget extends StatelessWidget {
               : InkWell(
                   // radius: 50,
                   borderRadius: BorderRadius.circular(50),
-                  onTap: () {},
+                  onTap: () {
+                    BlocProvider.of<UpdateTaskCubit>(context).deleteTasks(
+                      where: '"id" = ${task.id}',
+                    );
+                  },
                   child: const Icon(
                     Icons.delete,
                     color: Colors.red,

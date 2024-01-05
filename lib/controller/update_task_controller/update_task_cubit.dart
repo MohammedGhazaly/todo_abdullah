@@ -31,6 +31,11 @@ class UpdateTaskCubit extends Cubit<UpdateTaskState> {
       var task = TaskModel.fromJson(t);
       doneTasks.add(task);
     }
-    emit(GetUpdatedTasks());
+    emit(GetTasks());
+  }
+
+  Future<void> deleteTasks({required String where}) async {
+    await sqlDb.deleteShortCut(table: "tasks", where: where);
+    getUpdatedTasks();
   }
 }
